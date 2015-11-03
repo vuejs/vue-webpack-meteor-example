@@ -1,14 +1,17 @@
 <template>
-  <form v-on="submit:addTodo">
-    <input v-model="newTodo">
-    <button type="submit">Add Todo</button>
-  </form>
-  <ul>
-    <li v-repeat="todo:todos" track-by="_id">
-      <span>{{todo.text}}</span>
-      <a v-on="click:removeTodo(todo._id)">[x]</a>
-    </li>
-  </ul>
+  <div class="todo-app">
+    <img id="logo" src="./logo.png">
+    <form @submit.prevent="addTodo">
+      <input v-model="newTodo">
+      <button type="submit">Add Todo</button>
+    </form>
+    <ul>
+      <li v-for="todo in todos" track-by="_id">
+        <span>{{todo.text}}</span>
+        <a @click="removeTodo(todo._id)">[x]</a>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -22,8 +25,7 @@ module.exports = {
   },
 
   methods: {
-    addTodo: function (e) {
-      e.preventDefault()
+    addTodo: function () {
       if (this.newTodo.trim()) {
         Meteor.call('addTodo', this.newTodo)
         this.newTodo = ''
@@ -49,3 +51,9 @@ module.exports = {
   }
 }
 </script>
+
+<style>
+#logo {
+  width: 100px;
+}
+</style>
